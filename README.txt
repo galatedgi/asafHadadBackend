@@ -1,1 +1,1 @@
-The server was created by Gal Atedgi.rts
+The server was created by Gal Atedgi.
