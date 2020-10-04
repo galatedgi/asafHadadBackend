@@ -1,0 +1,575 @@
+openapi: 3.0.0
+info:
+  title: Recipes rest - API
+  description: Rest - API that allows users to obtain existing recipes data and post
+    new ones.
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/BGU-University/3.2_API/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: Auth
+  description: Register & Login Authenticaion.
+- name: Recipe
+  description: Guest user's end-points.
+- name: User
+  description: Logged-in user's end-points.
+paths:
+  /recipes/specific/{id}:
+    get:
+      tags:
+      - Recipe
+      summary: Returns a specific recipe by its id
+      description: Returns a specific recipe by its id
+      parameters:
+      - name: id
+        in: path
+        description: recipe id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 2
+      responses:
+        "200":
+          description: data about specific recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+        "405":
+          description: Invalid input
+  /recipes/random:
+    get:
+      tags:
+      - Recipe
+      summary: Returns 3 random recipes.
+      description: Returns 3 random recipes
+      responses:
+        "200":
+          description: data about 3 random recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/Recipe'
+        "500":
+          description: Internal server problem
+  /recipes/search/query/{searchQuery}/amount/{num}:
+    get:
+      tags:
+      - Recipe
+      summary: Returns 5/10/15 recipes based on free query.
+      parameters:
+      - name: searchQuery
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: pizza
+      - name: num
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 15
+      - name: cuisine
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Italian
+      - name: diet
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Vegetarian
+      - name: intolerances
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Egg
+      responses:
+        "200":
+          description: Array of 5/10/15 recipes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/RecipePrev'
+        "405":
+          description: Invalid input
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: register user
+      description: user register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+        required: true
+      responses:
+        "201":
+          description: registration has been successfull.
+        "409":
+          description: invalid input
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: login user
+      description: user login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      responses:
+        "200":
+          description: login has been successfull.
+        "405":
+          description: invild input
+  /auth/logout:
+    get:
+      tags:
+      - Auth
+      summary: login user
+      description: user login
+      responses:
+        "200":
+          description: succesfully logout.
+        "405":
+          description: Invalid Request - user not signed-in.
+  /user/search/query/{searchQuery}/amount/{num}:
+    get:
+      tags:
+      - User
+      summary: Returns 5/10/15 recipes extended data based on logged in user query.
+      parameters:
+      - name: searchQuery
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: pizza
+      - name: num
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 15
+      - name: cuisine
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Italian
+      - name: diet
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Vegetarian
+      - name: intolerances
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Egg
+      responses:
+        "200":
+          description: Array of 5/10/15 recipes extended data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/RecipePrevUser'
+        "405":
+          description: Invalid input
+  /user/specific/recipe_id/{id}:
+    get:
+      tags:
+      - User
+      summary: Returns a specific recipe extended data based on its id.
+      description: Returns a specific recipe extended data based on its id.
+      parameters:
+      - name: id
+        in: path
+        description: recipe id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 2
+      responses:
+        "200":
+          description: extended data about specific recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipeuser'
+        "405":
+          description: Invalid input
+  /user/addtofavorites/recipe_id/{id}:
+    get:
+      tags:
+      - User
+      summary: Insert the clicked recipe into user's favorites recipes.
+      description: Insert the clicked recipe into user's favorites recipes.
+      parameters:
+      - name: id
+        in: path
+        description: recipe id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 2
+      responses:
+        "200":
+          description: Recipe added To Favorites
+        "405":
+          description: Invalid input
+  /user/LastThreeRecipes:
+    get:
+      tags:
+      - User
+      summary: Returns 3 most recently watched recipes for logged-in user.
+      description: Returns 3 most recently watched recipes for logged-in user.
+      parameters:
+      - name: recipe_id
+        in: path
+        description: recipe id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 2
+      responses:
+        "200":
+          description: 3 most recently watched recipes for user.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/RecipePrevUser'
+        "405":
+          description: Invalid input
+  /user/myrecipes:
+    get:
+      tags:
+      - User
+      summary: return user recipes.
+      description: return user recipes.
+      responses:
+        "200":
+          description: return all user recipes.
+          content:
+            apliction/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/RecipePrev'
+  /user/familyrecipes:
+    get:
+      tags:
+      - User
+      summary: return family user recipes.
+      description: return family user recipes.
+      responses:
+        "200":
+          description: family user recipes.
+          content:
+            apliction/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/familyRecipes'
+  /user/favorites:
+    get:
+      tags:
+      - User
+      summary: return user favorites recipes.
+      description: return favorites user recipes.
+      responses:
+        "200":
+          description: return all user recipes.
+          content:
+            apliction/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/RecipePrev'
+  /user/myspecificrecipe/recipe_id/{id}:
+    get:
+      tags:
+      - User
+      summary: Returns a specific recipe extended personal recipe on its id.
+      description: Returns a specific recipe extended personal recipe on its id.
+      parameters:
+      - name: id
+        in: path
+        description: recipe id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 2
+      responses:
+        "200":
+          description: extended data about specific recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipeuser'
+        "405":
+          description: Invalid input
+components:
+  schemas:
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: Bread, Butter And Anchovies
+        readyInMinutes:
+          type: integer
+          example: 3
+        aggregateLikes:
+          type: integer
+          example: 0
+        vegetarian:
+          type: boolean
+          example: false
+        vegan:
+          type: boolean
+          example: false
+        glutenFree:
+          type: boolean
+          example: true
+        image:
+          type: boolean
+          example: false
+        instructions:
+          type: string
+          example: Slice bread into 1cm thick slices:...
+        servings:
+          type: integer
+          example: 1
+        extendedIngredients:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Ingridient'
+    Recipeuser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: Bread, Butter And Anchovies
+        readyInMinutes:
+          type: integer
+          example: 3
+        aggregateLikes:
+          type: integer
+          example: 0
+        vegetarian:
+          type: boolean
+          example: false
+        vegan:
+          type: boolean
+          example: false
+        glutenFree:
+          type: boolean
+          example: true
+        image:
+          type: boolean
+          example: false
+        extendedIngredients:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Ingridient'
+        instructions:
+          type: string
+          example: Slice bread into 1cm thick slices:...
+        servings:
+          type: integer
+          example: 1
+        watched:
+          type: boolean
+          example: true
+        favorited:
+          type: boolean
+          example: true
+    RecipePrev:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: Bread, Butter And Anchovies
+        readyInMinutes:
+          type: integer
+          example: 3
+        aggregateLikes:
+          type: integer
+          example: 0
+        vegetarian:
+          type: boolean
+          example: false
+        vegan:
+          type: boolean
+          example: false
+        glutenFree:
+          type: boolean
+          example: true
+        image:
+          type: boolean
+          example: false
+    RecipePrevUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: Bread, Butter And Anchovies
+        readyInMinutes:
+          type: integer
+          example: 3
+        aggregateLikes:
+          type: integer
+          example: 0
+        vegetarian:
+          type: boolean
+          example: false
+        vegan:
+          type: boolean
+          example: false
+        glutenFree:
+          type: boolean
+          example: true
+        image:
+          type: boolean
+          example: false
+        watched:
+          type: boolean
+          example: true
+        favorited:
+          type: boolean
+          example: true
+    UserRegistration:
+      type: object
+      properties:
+        username:
+          type: string
+          example: galated
+        first_name:
+          type: string
+          example: Gal
+        last_name:
+          type: string
+          example: Atedgi
+        country:
+          type: string
+          example: Morroco
+        password:
+          type: string
+        passwordAgain:
+          type: string
+        email:
+          type: string
+          example: galated@post.bgu.ac.il
+        image:
+          type: string
+          example: some url...
+    familyRecipes:
+      type: object
+      properties:
+        rec_source:
+          type: string
+          example: Doonish
+        holiday:
+          type: string
+          example: Friday
+        ing:
+          type: string
+          example: ¼ white onion finely chopped
+        instructions:
+          type: string
+          example: Toss the chicken thighs in half the spices and...
+        image:
+          type: boolean
+          example: false
+    UserLogin:
+      type: object
+      properties:
+        username:
+          type: string
+          example: galated
+        password:
+          type: string
+    Ingridient:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Soy Sauce
+        amount:
+          type: integer
+          example: 2
+        unit:
+          type: string
+          example: spoons
