@@ -27,8 +27,11 @@ router.post("/login", async (req, res, next) => {
       const users = await DButils.execQuery("SELECT username FROM dbo.users");
       if (users.find((x) => x.username === req.body.username))
         throw { status: 409, message: "User already exist" };
+      console.log("free username");
       let firstName= req.body.first_name;
       let lastName= req.body.last_name;
+      console.log(firstName);
+      console.log(lastName);
       await DButils.execQuery(
         `INSERT INTO dbo.users (username,first_name,last_name) VALUES ('${req.body.username}', N'${firstName}-', N'${lastName}-')`
       );
