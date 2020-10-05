@@ -3,11 +3,20 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const session = require("client-sessions");
+const cors = require("cors");
 require('dotenv').config();
 
 // Application settings
 const app = express();
 const port = process.env.PORT || 3000;
+
+const corsConfig = {
+  origin : true,
+  credentials: true
+};
+
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
