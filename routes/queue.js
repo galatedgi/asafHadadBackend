@@ -83,4 +83,19 @@ router.post("/addturn", async (req, res) => {
         }
       });
 
+      router.get('/dates', async (req, res) => {
+        try{
+          const turns = await DButils.execQuery(`  SELECT DISTINCT [date],[day] FROM [dbo].[Queues];`);
+          res.send(turns);
+        }
+          catch(error) {
+            console.log(error);
+            if(error.status){
+              res.status(error.status).send(error.message);
+            }else{
+              res.status(500).send(error)
+            }
+          }
+        });
+
 module.exports = router;
