@@ -8,7 +8,8 @@ router.post("/login", async (req, res, next) => {
   try {
       let user_name = req.body.username;
       let user_data = (await DButils.execQuery(`SELECT * FROM dbo.users WHERE username = ('${user_name}')`))[0];
-      let name= user_data.first_name.substring(0,user_data.first_name.length-1)+" "+user_data.last_name.substring(0,user_data.last_name.length-1);
+      let name= "gal";
+      // let name= user_data.first_name.substring(0,user_data.first_name.length-1)+" "+user_data.last_name.substring(0,user_data.last_name.length-1);
       if (!user_data)
         throw { status: 401, message: "User does not exist" };
       req.session.user_id = user_name;
