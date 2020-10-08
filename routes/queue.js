@@ -30,11 +30,6 @@ router.post("/addturn", async (req, res) => {
         let user_name = req.body.username;
         let date = req.body.date;
         let time = req.body.time;
-        console.log("-----------------------------------------------");
-        console.log(user_name);
-        console.log(date);
-        console.log(time);
-        console.log("-----------------------------------------------");
         const turns = await DButils.execQuery(`SELECT [status],[user] FROM dbo.Queues where [time]='${time}' and [date]='${date}'`);
         if(turns[0].user!=user_name){
           res.status(406).send({ message: "The turn is not yours"});
