@@ -31,11 +31,11 @@ router.post("/addturn", async (req, res) => {
         let date = req.body.date;
         let time = req.body.time;
         const turns = await DButils.execQuery(`SELECT [status],[user] FROM dbo.Queues where [time]='${time}' and [date]='${date}'`);
-        if(turn[0].user!=user_name){
+        if(turns[0].user!=user_name){
           res.status(406).send({ message: "The turn is not yours"});
         }
         else{
-        if(turn[0].status=="busy"){
+        if(turns[0].status=="busy"){
         await DButils.execQuery(
           `update dbo.Queues set [status]='free',[user]=null where [time]='${time}' and [date]='${date}'`
         );
