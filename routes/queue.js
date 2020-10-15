@@ -7,10 +7,12 @@ router.post("/addturn", async (req, res) => {
         let user_name = req.body.username;
         let date = req.body.date;
         let time = req.body.time;
+        let price = req.body.price;
+        let name = req.body.fullname;
         const turn = await DButils.execQuery(`SELECT [status],[user] FROM dbo.Queues where [time]='${time}' and [date]='${date}'`);
         if(turn[0].status=="free" && turn[0].user==null){
         await DButils.execQuery(
-          `update dbo.Queues set [status]='busy',[user]='${user_name}' where [time]='${time}' and [date]='${date}'`
+          `update dbo.Queues set [status]='busy',[user]='${user_name}',[price]='${price}',[fullname]=N'${name}-' where [time]='${time}' and [date]='${date}'`
         );
         res.status(200).send({ message: "A new queue has been added", success: true });
         }else{
@@ -37,7 +39,7 @@ router.post("/addturn", async (req, res) => {
         else{
         if(turns[0].status=="busy"){
         await DButils.execQuery(
-          `update dbo.Queues set [status]='free',[user]=null where [time]='${time}' and [date]='${date}'`
+          `update dbo.Queues set [status]='free',[user]=null,[price]=null,[fullname]=null where [time]='${time}' and [date]='${date}'`
         );
         res.status(200).send({ message: "The queue was successfully canceled", success: true });
         }
