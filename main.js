@@ -27,7 +27,7 @@ app.use(
     cookieName: "session",
     secret:process.env.COOKIE_SEC,
     duration:  24*1000*3600,
-    activeDuration: 0, 
+    activeDuration: 24*1000*3600, 
   })
 );
 
