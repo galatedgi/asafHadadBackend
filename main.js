@@ -35,10 +35,11 @@ app.use(
 // const user = require("./routes/user");
 const queue = require("./routes/queue");
 const auth = require("./routes/auth");
+const admin = require("./routes/admin");
 
 
 // Routing
-// app.use("/user", user);
+app.use("/admin", admin);
 app.use("/queue", queue);
 app.use("/", auth); //without prefix! 
 
