@@ -50,15 +50,21 @@ router.post("/login", async (req, res, next) => {
     try {
         let date = req.body.date;
         let time = req.body.time;
+        let status=req.body.status;
         const turns = await DButils.execQuery(`SELECT [status],[user] FROM dbo.Queues where [time]='${time}' and [date]='${date}'`);
         if(turns[0].user!=null){
           res.status(406).send({ message: "The turn is allrady set to "+turns[0].user });
         }
-        else{
+        else if(status=="free"){
         await DButils.execQuery(
           `update dbo.Queues set [status]='blocked' where [time]='${time}' and [date]='${date}'`
         );
         res.status(200).send({ message: "The queue was successfully canceled", success: true });
+      }else{
+        await DButils.execQuery(
+          `update dbo.Queues set [status]='free' where [time]='${time}' and [date]='${date}'`
+        );
+        res.status(200).send({ message: "The queue was successfully opened", success: true });
       }
     } catch (error) {
       console.log(error);
