@@ -10,7 +10,7 @@ router.post("/login", async (req, res, next) => {
       let user_data = (await DButils.execQuery(`SELECT * FROM dbo.users WHERE username = ('${user_name}')`))[0];
       let name= user_data.first_name.substring(0,user_data.first_name.length-1)+" "+user_data.last_name.substring(0,user_data.last_name.length-1);
       if (!user_data)
-        throw { status: 401, message: "User does not exist" };
+        throw { status: 401, message: "המשתמש לא קיים" };
       req.session.user_id = user_name;
       res.status(200).send({ message: "Login succeeded", success: true,name: name});
   } catch (error) {
@@ -27,7 +27,7 @@ router.post("/login", async (req, res, next) => {
     try {
       const users = await DButils.execQuery("SELECT username FROM dbo.users");
       if (users.find((x) => x.username === req.body.username))
-        throw { status: 409, message: "User already exist" };
+        throw { status: 409, message: "שם המשתמש כבר קיים" };
       console.log("free username");
       let firstName= req.body.first_name;
       let lastName= req.body.last_name;
