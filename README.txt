@@ -6,7 +6,7 @@ URL to the barbershop website: http://asafhadadbarbershop.com
 
 Functionality:
 
-*Create a new user
+-Create a new user
 
 -Login and logout from the user
 
