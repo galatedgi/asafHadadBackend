@@ -1,1 +1,1 @@
-The server was created by Gal Atedgi.fsdf
+The server was created by Gal Atedgi.
