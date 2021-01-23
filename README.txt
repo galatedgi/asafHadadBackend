@@ -2,7 +2,7 @@ The application was created by Gal Atedgi.
 
 The application is a backend to the barbershop website implemented in NodeJs. The application accepts and handles HTTP requests.
 
-URL to the barbershop website: http://asafhadadbarbershop.com/
+URL to the barbershop website: http://asafhadadbarbershop.com
 
 Functionality:
 
