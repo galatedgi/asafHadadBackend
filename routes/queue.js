@@ -100,4 +100,18 @@ router.post("/addturn", async (req, res) => {
           }
         });
 
+        router.get('/test', async (req, res) => {
+          try{
+            console.log("test is working");
+          }
+            catch(error) {
+              console.log(error);
+              if(error.status){
+                res.status(error.status).send(error.message);
+              }else{
+                res.status(500).send(error)
+              }
+            }
+          });
+
 module.exports = router;
