@@ -123,7 +123,7 @@ router.post("/login", async (req, res, next) => {
           if(turns[0].user!=null){
             res.status(406).send({ message: "The turn is allrady set to "+turns[0].user });
           }
-          else if(turns[0].unlock=="y"){
+          else if(turns[0].unlock=='y'){
           await DButils.execQuery(
             `update dbo.Queues set [unlock]='n' where [time]='${time}' and [date]='${date}'`
           );
