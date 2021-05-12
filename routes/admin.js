@@ -127,7 +127,7 @@ router.post("/login", async (req, res, next) => {
           await DButils.execQuery(
             `update dbo.Queues set [unlock]='n' where [time]='${time}' and [date]='${date}'`
           );
-          res.status(200).send({ message: "The queue was successfully canceled", success: true });
+          res.status(200).send({ message: "The queue was successfully close", success: true });
         }else{
           await DButils.execQuery(
             `update dbo.Queues set [unlock]='y' where [time]='${time}' and [date]='${date}'`
