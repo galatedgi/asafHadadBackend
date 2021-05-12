@@ -119,7 +119,7 @@ router.post("/login", async (req, res, next) => {
           let date = req.body.date;
           let time = req.body.time;
           let status=req.body.status;
-          const turns = await DButils.execQuery(`SELECT [status],[user] FROM dbo.Queues where [time]='${time}' and [date]='${date}'`);
+          const turns = await DButils.execQuery(`SELECT [unlock],[user] FROM dbo.Queues where [time]='${time}' and [date]='${date}'`);
           if(turns[0].user!=null){
             res.status(406).send({ message: "The turn is allrady set to "+turns[0].user });
           }
