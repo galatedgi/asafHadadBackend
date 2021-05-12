@@ -72,7 +72,7 @@ router.post("/addturn", async (req, res) => {
     router.get('/allturns/day/:day', async (req, res) => {
       try{
         let day=req.params.day;
-        const turns = await DButils.execQuery(`SELECT [time],[status] FROM dbo.Queues where [date]='${day}'`);
+        const turns = await DButils.execQuery(`SELECT [time],[status] FROM dbo.Queues where [date]='${day}' and [unlock]='y'`);
         res.send(turns);
       }
         catch(error) {
