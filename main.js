@@ -6,18 +6,6 @@ const session = require("client-sessions");
 const cors = require("cors");
 require('dotenv').config();
 
-
-const fs = require('fs');
-const https = require('https');
-const http = require('http');
-
-
-const options = {
-  key: fs.readFileSync('./keys/private.key'),
-  cert: fs.readFileSync('./keys/certificate.crt'),
-  ca: fs.readFileSync('./keys/ca_bundle.crt')
-};
-
 // Application settings
 const app = express();
 const port = process.env.PORT || 3000;
@@ -57,21 +45,12 @@ app.use("/", auth); //without prefix!
 
 
 
-// app.listen(port, () => {
-//     console.log(`server listening on port ${port}`)
-// })
+app.listen(port, () => {
+    console.log(`server listening on port ${port}`)
+})
 
 app.use((req,res) => { 
   res.sendStatus(404); 
-});
-
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(options, app);
-httpServer.listen(port,()=>{
-  console.log(`server listening on port ${port}`)
-});
-httpsServer.listen(8443,()=>{
-  console.log(`server listening on port 8443`)
 });
 
 
