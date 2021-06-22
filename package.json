@@ -11,6 +11,9 @@
     "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "https-server": "^0.1.2",
     "morgan": "^1.10.0",
     "mssql": "^6.2.0",
     "nodemon": "^2.0.4"
